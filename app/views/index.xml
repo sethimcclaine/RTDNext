@@ -1,0 +1,19 @@
+<Alloy>
+	<Window class="container">		
+		<Label id="stationName"></Label>
+		<Label id="currentString">Current: </Label>
+		<Label id="currentTimeString"></Label>
+		<Label id="nextString" class="next">Next:</Label>
+		<Label id="nextTimeString" class="next"></Label>
+		
+		<Label id="nextHours" class="next hours"></Label>
+		<Label id="nextHMColon" class="next hmColon">:</Label>
+		<Label id="nextMinutes" class="next minutes"></Label>
+		<Label id="nextMSColon" class="next msColon">:</Label>
+		<Label id="nextSeconds" class="next seconds"></Label>
+		
+		<Label id="lastString">Last:</Label>
+		<Label id="lastTimeString"></Label>
+		
+	</Window>
+</Alloy>

@@ -1,0 +1,61 @@
+".container": {
+	backgroundColor:"white"
+}
+"#stationName": {
+	top: 40
+}
+"#currentTimeString": {
+	top: 80,
+	left: 80
+}
+"#currentString": {
+	top: 80,
+	left: 0
+}
+".next": {
+	top: 120
+}
+"#nextTimeString": {
+	left: 80
+}
+"#nextString": {
+	left: 0
+}
+"#lastTimeString": {
+	top: 160,
+	left: 80
+}
+"#lastString": {
+	top: 160,
+	left: 0
+}
+".hours": {
+	left:200,
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	color: "#000"
+}
+".hmColon": {
+	left: 220,
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	color: "#000"
+}
+".minutes": {
+	left: 240,
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	color: "#000"
+}
+".msColon": {
+	left: 280,
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	color: "#000"
+}
+".seconds": {
+	left: 300,
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	color: "#000"
+}
