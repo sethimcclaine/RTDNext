@@ -1,4 +1,25 @@
-var stationData = [
+/**
+ * 8/8/15 04:00 - 08:40     Load data, layout, basic functionality, display lat long
+ * 8/9/15 23:45 - 1:15      Clean up how we get the nextDeparture
+ * 8/10/15 1:15 - 2:00      Try to get the app to build on a phone (prov issues)
+ * 8/10/15 2:00 - 2:00      Time issue #1
+ */
+
+/**
+ * Time issues
+ * ID   Current  Departure   Issue
+ * #1   114A     545A -      3:90:00     (90 minutes)    
+ * #2   1249A    115A -     -12:??:??    (-12 hours)
+ */
+
+//West
+var stationData = [{
+    name: 'US 36 & McCaslin Park-n-Ride',
+    departures: [ '545A', '609A', '622A', '637A', '701A', '713A', '723A', '733A', '743A', '756A', '812A', '822A', '824A', '837A', '847A', '857A', '907A', '922A', '938A', '946A']
+}];
+
+//East
+var XXstationData = [
     {
         name: 'Boulder Transit Center (14th St - Walnut St)', 
         departures: ['111A', '506A', '601A', '701A', '801A', '831A', '901A', '931A', '1001A', '1031A', '1101A', '1131A', '1201P', '1231P', '101P', '131P', '201P', '231P', '301P', '331P', '401P', '431P', '501P', '531P', '601P', '631P', '701P', '732P', '802P', '832P', '907P', '1007P', '1107P', '1207A', '115A'],
@@ -44,7 +65,8 @@ function getCurrentTimeObj() {
     var currentTime = new Date(),
         meridian = 'A',
         currentHours = currentTime.getHours(),
-        currentMinutes = currentTime.getMinutes();
+        currentMinutes = currentTime.getMinutes(),
+        currentSeconds = currentTime.getSeconds();
 
     if(currentMinutes < 10) {
         currentMinutes = '0'+currentMinutes;
@@ -56,12 +78,15 @@ function getCurrentTimeObj() {
     } else if (currentHours === 0) {
         currentHours = 12;
     }
+    
 
     return {
         fullString: currentHours+''+currentMinutes+''+meridian,
         string: currentHours+''+currentMinutes,
+        milString: currentTime.getHours()+''+currentMinutes,
         hours: currentHours,
-        mintues: currentMinutes,
+        minutes: currentMinutes,
+        seconds: currentSeconds,
         meridian: meridian
     }
 
@@ -70,28 +95,22 @@ function startCountdown(nextDeparture) {
 
 	var interval = setInterval(function() {
 		
-		var currentTime = new Date();
-		var hours = nextDeparture.hours - currentTime.getHours();
-		var minutes = nextDeparture.minutes  - currentTime.getMinutes();
-        if(currentTime.getHours() != nextDeparture.hours) {
+		var currentTime = getCurrentTimeObj();
+		var hours = nextDeparture.hours - currentTime.hours;
+		var minutes = nextDeparture.minutes - currentTime.minutes - 1;
+		var seconds = 60 - currentTime.seconds;
+        if(currentTime.hours < nextDeparture.hours && currentTime.minutes > nextDeparture.minutes) {
             hours--;
             minutes += 60;
         }
-		var seconds = 60 - currentTime.getSeconds();
 
-		var currentTimeString = getCurrentTimeObj().string; 
-        
+        if(seconds < 10) { seconds = '0' + seconds; }
+	    if(minutes < 10) { minutes = '0' + minutes; }
 
-        if(seconds < 10) {
-            seconds = '0'+seconds;
-        }
-	    if(minutes < 10) {	
-            minutes = '0' + minutes;
-        }
 	    $.nextHours.setText(hours);
 		$.nextMinutes.setText(minutes);
 		$.nextSeconds.setText(seconds);
-        if(currentTimeString > nextDeparture.string) {
+        if(currentTime.milString > nextDeparture.milString) {
             clearInterval(interval);
             interval = null;
             getNextDeparture();
@@ -99,6 +118,7 @@ function startCountdown(nextDeparture) {
 		
     }, 1 * 1000); 
 }
+
 function getNextDeparture() {
     var departures = selectedStation.departures,
         currentTimeObj = getCurrentTimeObj(),
@@ -116,27 +136,64 @@ function getNextDeparture() {
         nextDeparture = {
             fullString: departures[i],
             string: departures[i].substr(0, departures[i].length -1),
+            milString: departures[i].substr(0, departures[i].length -1),
             meridian: departures[i].substr(departures[i].length -1),
             hours: departures[i].substr(0, departures[i].length -3),
             minutes: departures[i].substr(departures[i].length -3, 2)
         };
-//Need some logic around meridain
-        if(currentTimeObj.string < nextDeparture.string) {
-            //$.nextTimeString.setText(nextDeparture);
-            $.nextTimeString.setText(nextDeparture.fullString);
-            $.lastTimeString.setText(lastDeparture.fullString);
-            startCountdown(nextDeparture);
-            return {
-                last: lastDeparture,
-                next: nextDeparture 
-            };
+        if(nextDeparture.meridian==='P') {
+            nextDeparture.milString = parseInt(nextDeparture.milString) + 1200;
+        }        
+        if(parseInt(currentTimeObj.string) < parseInt(nextDeparture.string)) {
+            break;
         }
     }
-    $.lastTimeString.setText('Error');
-    $.nextTimeString.setText('Error');
+
+    startCountdown(nextDeparture);
+    $.nextTimeString.setText(nextDeparture.fullString);
+    $.lastTimeString.setText(lastDeparture.fullString);
 }
 
-function loadStationData(stationObj) {
+function loadStationData() {
+
+    ///////////
+    ///////////
+    ///////////
+    Titanium.Geolocation.accuracy = Titanium.Geolocation.ACCURACY_BEST;
+     
+    //
+    //  SET DISTANCE FILTER.  THIS DICTATES HOW OFTEN AN EVENT FIRES BASED ON THE DISTANCE THE DEVICE MOVES
+    //  THIS VALUE IS IN METERS
+    //
+    Titanium.Geolocation.distanceFilter = 10;
+     
+    //
+    // GET CURRENT POSITION - THIS FIRES ONCE
+    //
+    Titanium.Geolocation.getCurrentPosition(function(e) {
+        if (e.error)
+        {
+            alert('HFL cannot get your current location');
+            return;
+        }
+     
+        var longitude = e.coords.longitude;
+        var latitude = e.coords.latitude;
+    /*
+        var altitude = e.coords.altitude;
+        var heading = e.coords.heading;
+        var accuracy = e.coords.accuracy;
+        var speed = e.coords.speed;
+        var timestamp = e.coords.timestamp;
+        var altitudeAccuracy = e.coords.altitudeAccuracy;
+    */
+
+        $.latitude.setText("Lat:  "+latitude);
+        $.longitude.setText("Long: "+longitude);
+    });
+    ///////////
+    ///////////
+    ///////////
 
     //Set the title 
     $.stationName.setText(selectedStation.name);
@@ -158,5 +215,7 @@ function init() {
     closestStation = findClosestStation();
     loadStationData(closestStation);
 }
+
+$.refresh.addEventListener('click', loadStationData);
 
 init();

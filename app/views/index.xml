@@ -14,6 +14,9 @@
 		
 		<Label id="lastString">Last:</Label>
 		<Label id="lastTimeString"></Label>
+		<Button id="refresh">Refresh</Button>
 		
+		<Label id="latitude"></Label>
+		<Label id="longitude"></Label>
 	</Window>
 </Alloy>

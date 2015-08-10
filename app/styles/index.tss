@@ -36,7 +36,7 @@
 	color: "#000"
 }
 ".hmColon": {
-	left: 220,
+	left: 230,
 	width: Ti.UI.SIZE,
 	height: Ti.UI.SIZE,
 	color: "#000"
@@ -48,14 +48,25 @@
 	color: "#000"
 }
 ".msColon": {
+	left: 270,
+	width: Ti.UI.SIZE,	
+	height: Ti.UI.SIZE,
+	color: "#000"
+}
+".seconds": {
 	left: 280,
 	width: Ti.UI.SIZE,
 	height: Ti.UI.SIZE,
 	color: "#000"
 }
-".seconds": {
-	left: 300,
-	width: Ti.UI.SIZE,
-	height: Ti.UI.SIZE,
-	color: "#000"
+"#refresh": {
+	bottom: 80
+}
+"#latitude": {
+	left: 10,
+	bottom: 40
+}
+"#longitude": {
+	left: 10,
+	bottom: 20
 }

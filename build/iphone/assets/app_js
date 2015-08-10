@@ -1,1 +1,1 @@
-/var/folders/19/_w8ghfsn34z11_bww31_qv440000gp/T/liveview.js
+var Alloy=require("alloy"),_=Alloy._,Backbone=Alloy.Backbone;Alloy.createController("index");

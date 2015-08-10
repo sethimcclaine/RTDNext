@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ti:app xmlns:ti="http://ti.appcelerator.org">
-    <id>com.sethimcclaine.buscatch</id>
+    <id>com.inspiringapps.enterprise.rtdnext</id>
     <name>RTDNext</name>
-    <version>1.0</version>
+    <version>1.1</version>
     <publisher>seth</publisher>
     <url>http://</url>
-    <description/>
+    <description>undefined</description>
     <copyright>2015 by seth</copyright>
     <icon>appicon.png</icon>
     <fullscreen>false</fullscreen>
@@ -16,6 +16,8 @@
     <ios>
         <plist>
             <dict>
+                <key>NSLocationWhenInUseUsageDescription</key>
+                <string>Test NSLocationWhenInUseUsageDescription</string>
                 <key>UISupportedInterfaceOrientations~iphone</key>
                 <array>
                     <string>UIInterfaceOrientationPortrait</string>
@@ -70,14 +72,14 @@
     <property name="acs-oauth-key-development" type="string">YgKziMye9wL7HqOAzbJfDu3afQiqL4ot</property>
     <property name="acs-api-key-development" type="string">i8grComAgyQmIBHkHTfyyT1HD2oBb3OK</property>
     <property name="acs-username-development" type="string">appc_app_user_dev</property>
-    <property name="acs-password-development" type="string">uiGb14PxSAv1Y6pDaP</property>
+    <property name="acs-password-development" type="string">pqsQj06REdpUK8VxkZ</property>
     <property name="acs-authbase-url-production" type="string">https://secure-identity.cloud.appcelerator.com</property>
     <property name="acs-base-url-production" type="string">https://api.cloud.appcelerator.com</property>
     <property name="acs-oauth-secret-production" type="string">RN97ajZwiwyHQw3RTDr3wEN3MjqD4jzG</property>
     <property name="acs-oauth-key-production" type="string">DL9Gvm1GLkCR8ozAxK5gZYFqYiidVnd0</property>
     <property name="acs-api-key-production" type="string">hws580pYXDWHQnKXHggmkwbQC6sgnPlr</property>
     <property name="acs-username-production" type="string">appc_app_user</property>
-    <property name="acs-password-production" type="string">5w4ko7ro07cq9LnVRy</property>
+    <property name="acs-password-production" type="string">IdR3vb5sYnHr8kxiU0</property>
     <property name="appc-org-id" type="string">100000054</property>
     <property name="appc-creator-user-id" type="string">22543b67-c807-4420-a3f7-f0fe4f22a35a</property>
     <property name="com-appcelerator-apm-id" type="string">55c5d48a251f530b00e0dbe6</property>
